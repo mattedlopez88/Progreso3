@@ -11,17 +11,13 @@ struct datos{
     float promedio;
 }Alumn[10];
 
-float calculo_promedio(float P1, float P2, float P3){
-    float promedio = (P1 + P2 + P3) / 3;
-    return promedio;
-}
 
-void crearFile(void){
+void crearFile(){
     FILE *archivo2 = fopen("promedio alumnos.txt", "w");
+    for (int j = 4; j > -1; j--){
+        Alumn[j].promedio = (Alumn[j].P1 + Alumn[j].P2 + Alumn[j].P3)/3;
+        fprintf(archivo2, "%d;%s %s; %s; %.2f; %.2f; %.2f\n Promedio: %f\n", Alumn[j].n, Alumn[j].nombre, Alumn[j].apellido, Alumn[j].carrera, Alumn[j].P1, Alumn[j].P2, Alumn[j].P3, Alumn[j].promedio);
 
-    for (int j = 0; j < 5; j++){
-        fprintf(archivo2, "%d;%s %s;%s;%f;%f;%f;%f", Alumn[j].n, Alumn[j].nombre, Alumn[j].apellido, Alumn[j].carrera, Alumn[j].P1, Alumn[j].P2, Alumn[j].P3, Alumn[j].promedio);
-        fprintf(archivo2, "\n");
     }
     fclose(archivo2);
 }
@@ -35,13 +31,12 @@ void leerFile(void){
         printf("Se abrio el archivo correctamente.\n");
         while (!feof(archivo)){
             for (int j = 0; j < 5; j++){
-                fscanf(archivo, "%d;%s %s;%s;%f;%f;%f", &Alumn[j].n, Alumn[j].nombre, Alumn[j].apellido, Alumn[j].carrera, &Alumn[j].P1, &Alumn[j].P2, &Alumn[j].P3);
-                Alumn[j].promedio = calculo_promedio(Alumn[j].P1, Alumn[j].P2, Alumn[j].P3);
+                fscanf(archivo, "%d;%[^;];%[^;];%[^;];%f;%f;%f", &Alumn[j].n, Alumn[j].nombre, Alumn[j].apellido, Alumn[j].carrera, &Alumn[j].P1, &Alumn[j].P2, &Alumn[j].P3);
+
             }  
+            crearFile();
         }
         
-        
-        crearFile();
     }
     fclose(archivo);
 }
