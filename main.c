@@ -16,32 +16,36 @@ float calculo_promedio(float P1, float P2, float P3){
     return promedio;
 }
 
-void crearFile(int *i){
+void crearFile(void){
     FILE *archivo2 = fopen("promedio alumnos.txt", "w");
 
-    for (int j = 0; j < *i; j++){
-        fprintf(archivo2, "%d;%s;%s;%s;%f;%f;%f;%f", Alumn[j].n, Alumn[j].nombre, Alumn[j].apellido, Alumn[j].carrera, Alumn[j].P1, Alumn[j].P2, Alumn[j].P3, Alumn[j].promedio);
-
+    for (int j = 0; j < 5; j++){
+        fprintf(archivo2, "%d;%s %s;%s;%f;%f;%f;%f", Alumn[j].n, Alumn[j].nombre, Alumn[j].apellido, Alumn[j].carrera, Alumn[j].P1, Alumn[j].P2, Alumn[j].P3, Alumn[j].promedio);
+        fprintf(archivo2, "\n");
     }
     fclose(archivo2);
 }
-void leerFile(int *i){
-    FILE* archivo = fopen("alumnos.txt", "r");
 
+void leerFile(void){
+    FILE* archivo;
+    archivo = fopen("/Users/Matias Lopez/Library/CloudStorage/OneDrive-UniversidaddeLasAméricas/UDLA 2/Programacion I/CodeC/Progreso3/alumnos.txt", "r");
     if (archivo == NULL){
-        printf("No se pudo abrir el archivo.\n");
+        printf("No se pudo abrir el archivo!\n");
     }else{
         printf("Se abrio el archivo correctamente.\n");
-        for (int j = 0; j < *i; j++){
-            fscanf(archivo, "%d;%s;%s;%s;%f;%f;%f", &Alumn[j].n, Alumn[j].nombre, Alumn[j].apellido, Alumn[j].carrera, &Alumn[j].P1, &Alumn[j].P2, &Alumn[j].P3);
-            Alumn[j].promedio = calculo_promedio(Alumn[j].P1, Alumn[j].P2, Alumn[j].P3);
-        }  
-        crearFile(i);
+        while (!feof(archivo)){
+            for (int j = 0; j < 5; j++){
+                fscanf(archivo, "%d;%s %s;%s;%f;%f;%f", &Alumn[j].n, Alumn[j].nombre, Alumn[j].apellido, Alumn[j].carrera, &Alumn[j].P1, &Alumn[j].P2, &Alumn[j].P3);
+                Alumn[j].promedio = calculo_promedio(Alumn[j].P1, Alumn[j].P2, Alumn[j].P3);
+            }  
+        }
+        
+        
+        crearFile();
     }
     fclose(archivo);
 }
 
 int main(){
-    int i=10;
-    leerFile(&i);
+    leerFile();
 }
